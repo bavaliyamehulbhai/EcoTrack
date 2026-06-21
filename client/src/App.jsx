@@ -6,22 +6,25 @@ import {
   Navigate
 } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import CarbonCalculator from "./pages/CarbonCalculator";
-import History from "./pages/History";
-import Goals from "./pages/Goals";
-import EcoActions from "./pages/EcoActions";
-import Leaderboard from "./pages/Leaderboard";
-import Settings from "./pages/Settings";
-import AdminDashboard from "./pages/AdminDashboard";
-import UsersManagement from "./pages/UsersManagement";
-import CarbonManagement from "./pages/CarbonManagement";
-import GoalsManagement from "./pages/GoalsManagement";
-import PlatformAnalytics from "./pages/PlatformAnalytics";
+import { lazy, Suspense } from "react";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+
+// Lazy loaded pages
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const CarbonCalculator = lazy(() => import("./pages/CarbonCalculator"));
+const History = lazy(() => import("./pages/History"));
+const Goals = lazy(() => import("./pages/Goals"));
+const EcoActions = lazy(() => import("./pages/EcoActions"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const Settings = lazy(() => import("./pages/Settings"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const UsersManagement = lazy(() => import("./pages/UsersManagement"));
+const CarbonManagement = lazy(() => import("./pages/CarbonManagement"));
+const GoalsManagement = lazy(() => import("./pages/GoalsManagement"));
+const PlatformAnalytics = lazy(() => import("./pages/PlatformAnalytics"));
 import { ToastContainer } from "./components/Toast";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -39,125 +42,127 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <ToastContainer />
-        <Routes>
-          {/* Default: redirect root to /login */}
-          <Route path="/" element={<Navigate to="/login" />} />
+        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'var(--text-h)' }}>Loading EcoTrack...</div>}>
+          <Routes>
+            {/* Default: redirect root to /login */}
+            <Route path="/" element={<Navigate to="/login" />} />
 
-          <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register />} />
+
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
           <Route
-            path="/dashboard"
+            path="/calculator"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <CarbonCalculator />
               </ProtectedRoute>
             }
           />
 
-        <Route
-          path="/calculator"
-          element={
-            <ProtectedRoute>
-              <CarbonCalculator />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/history"
-          element={
-            <ProtectedRoute>
-              <History />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/goals"
+            element={
+              <ProtectedRoute>
+                <Goals />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/goals"
-          element={
-            <ProtectedRoute>
-              <Goals />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/actions"
+            element={
+              <ProtectedRoute>
+                <EcoActions />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/actions"
-          element={
-            <ProtectedRoute>
-              <EcoActions />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/leaderboard"
+            element={
+              <ProtectedRoute>
+                <Leaderboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/leaderboard"
-          element={
-            <ProtectedRoute>
-              <Leaderboard />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
+          {/* Administrative panel routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
 
-        {/* Administrative panel routes */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          }
-        />
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <UsersManagement />
+              </AdminRoute>
+            }
+          />
 
-        <Route
-          path="/admin/users"
-          element={
-            <AdminRoute>
-              <UsersManagement />
-            </AdminRoute>
-          }
-        />
+          <Route
+            path="/admin/carbon"
+            element={
+              <AdminRoute>
+                <CarbonManagement />
+              </AdminRoute>
+            }
+          />
 
-        <Route
-          path="/admin/carbon"
-          element={
-            <AdminRoute>
-              <CarbonManagement />
-            </AdminRoute>
-          }
-        />
+          <Route
+            path="/admin/goals"
+            element={
+              <AdminRoute>
+                <GoalsManagement />
+              </AdminRoute>
+            }
+          />
 
-        <Route
-          path="/admin/goals"
-          element={
-            <AdminRoute>
-              <GoalsManagement />
-            </AdminRoute>
-          }
-        />
-
-        <Route
-          path="/admin/analytics"
-          element={
-            <AdminRoute>
-              <PlatformAnalytics />
-            </AdminRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  </AuthProvider>
+          <Route
+            path="/admin/analytics"
+            element={
+              <AdminRoute>
+                <PlatformAnalytics />
+              </AdminRoute>
+            }
+          />
+        </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

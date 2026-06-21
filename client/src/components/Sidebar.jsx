@@ -80,7 +80,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
           <span className="auth-logo-icon">🌿</span>
           <span className="auth-logo-text">EcoTrack</span>
         </div>
-        <button className="sidebar-close-btn" onClick={toggleSidebar}>
+        <button className="sidebar-close-btn" onClick={toggleSidebar} aria-label="Close Sidebar">
           ✕
         </button>
       </div>
