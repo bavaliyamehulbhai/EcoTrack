@@ -1,5 +1,7 @@
 # 🌿 EcoTrack - Sustainability & Carbon Tracking Platform
 
+**🌍 Live Demo:** [https://ecotrack123.vercel.app/](https://ecotrack123.vercel.app/)
+
 EcoTrack is a modern, full-stack web application designed to help individuals and organizations track their daily carbon footprint, build sustainable habits, and compete on a global leaderboard. Built with the MERN stack and featuring a stunning Glassmorphism UI, EcoTrack gamifies sustainability.
 
 ## ✨ Key Features
