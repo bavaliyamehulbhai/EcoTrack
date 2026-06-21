@@ -29,7 +29,7 @@ export const getGoals = asyncHandler(async (req, res) => {
     userId: req.user.id
   }).sort({
     createdAt: -1
-  });
+  }).lean();
 
   res.json(goals);
 });

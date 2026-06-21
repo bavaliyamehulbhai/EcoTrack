@@ -2,11 +2,10 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import mongoSanitize from "express-mongo-sanitize";
-import xss from "xss-clean";
 import compression from "compression";
 import { rateLimit } from "express-rate-limit";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+import { sanitizeData } from "./middleware/sanitize.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import carbonRoutes from "./routes/carbonRoutes.js";
@@ -43,11 +42,8 @@ const authLimiter = rateLimit({
 app.use(cookieParser());
 app.use(express.json({ limit: "10kb" })); // Limit body size
 
-// Data sanitization against NoSQL query injection (removed due to getter compatibility issue)
-// app.use(mongoSanitize());
-
-// Data sanitization against XSS (commented out to prevent ES module crash)
-// app.use(xss());
+// Apply custom NoSQL and XSS sanitization
+app.use(sanitizeData);
 
 // Compress API responses
 app.use(compression());

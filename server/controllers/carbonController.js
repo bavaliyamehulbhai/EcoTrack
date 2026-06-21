@@ -23,13 +23,14 @@ export const createCarbonRecord = asyncHandler(async (req, res) => {
 
 export const getCarbonHistory = asyncHandler(async (req, res) => {
   const records = await CarbonRecord.find({ userId: req.user.id })
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
 
   res.json(records);
 });
 
 export const getDashboardData = asyncHandler(async (req, res) => {
-  const records = await CarbonRecord.find({ userId: req.user.id });
+  const records = await CarbonRecord.find({ userId: req.user.id }).lean();
 
   const totalCarbon = records.reduce((acc, curr) => acc + curr.totalCarbon, 0);
 

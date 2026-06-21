@@ -1,4 +1,6 @@
-function DashboardCard({ title, value, icon, subtitle, trend, trendType, isCircular, score, theme }) {
+import { memo } from "react";
+
+const DashboardCard = memo(({ title, value, icon, subtitle, trend, trendType, isCircular, score, theme }) => {
   const themeClass = theme ? `${theme}-theme` : "green-theme";
 
   if (isCircular) {
@@ -84,6 +86,8 @@ function DashboardCard({ title, value, icon, subtitle, trend, trendType, isCircu
       </div>
     </div>
   );
-}
+});
+
+DashboardCard.displayName = "DashboardCard";
 
 export default DashboardCard;
