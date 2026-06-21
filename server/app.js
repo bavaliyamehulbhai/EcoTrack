@@ -16,7 +16,11 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+    "http://localhost:5173", 
+    "https://ecotrack-psi-peach.vercel.app",
+    process.env.CLIENT_URL
+  ],
   credentials: true
 }));
 
